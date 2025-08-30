@@ -1,7 +1,6 @@
 "use client"
 
-import Image from "next/image"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { feedbackContentArray } from "@/constants/(translate)/feedback-content"
 import { LocaleType, isUrduTypedLanguage } from "@/constants/language"
 
@@ -16,18 +15,6 @@ export default function FeedbackSection({ locale = "en" }: Props) {
 
   const isRtl = isUrduTypedLanguage(section.code)
 
-  // Split testimonials into chunks -> left (1), right (2)
-  const chunks: (typeof section.testimonials)[] = []
-  for (let i = 0; i < section.testimonials.length; ) {
-    if (i % 2 === 0) {
-      chunks.push([section.testimonials[i]]) // left side single
-      i += 1
-    } else {
-      chunks.push(section.testimonials.slice(i, i + 2)) // right side pair
-      i += 2
-    }
-  }
-
   return (
     <section
       className="py-16 md:py-32"
@@ -36,84 +23,116 @@ export default function FeedbackSection({ locale = "en" }: Props) {
         textAlign: isRtl ? "right" : "left",
       }}
     >
-      <div className="mx-auto max-w-6xl space-y-8 px-6 md:space-y-16">
+      <div className="mx-auto max-w-6xl space-y-8 px-4 sm:px-6 md:space-y-16">
         {/* Section Heading */}
         <div className="relative z-10 mx-auto max-w-xl space-y-6 text-center md:space-y-12">
-          <h2 className="text-4xl font-medium lg:text-5xl">{section.title}</h2>
-          <p>{section.subtitle}</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium">
+            {section.title}
+          </h2>
+          <p className="text-base sm:text-lg">{section.subtitle}</p>
         </div>
 
-        {/* Testimonials */}
-        <div className="mx-auto max-w-5xl flex flex-col gap-16">
-          {chunks.map((group, idx) => {
-            const alignRight = idx % 2 === 1
-            return (
-              <div
-                key={idx}
-                className={`flex flex-col gap-8 ${
-                  alignRight
-                    ? "md:flex-row-reverse items-start text-right"
-                    : "md:flex-row items-start text-left"
-                }`}
+        {/* Responsive Testimonials */}
+        {/* Mobile/tablet: stack all, lg+: grid */}
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-3">
+          {/* First testimonial */}
+          <div className="flex items-center justify-center px-4 lg:col-span-1">
+            {section.testimonials[0] && (
+              <blockquote
+                className={`
+                  max-w-md w-full space-y-6 p-4
+                  ${isRtl ? "lg:border-l-2" : "lg:border-r-2"}
+                  border-gray-300
+                  mx-auto
+                `}
               >
-                {group.map((t, subIdx) => (
-                  <div key={subIdx} className="flex flex-col md:flex-row gap-6 flex-1">
-                    {/* Avatar */}
-                    <div className="flex-shrink-0">
-                      {t.image ? (
-                        <Image
-                          src={t.image}
-                          alt={t.name}
-                          width={64}
-                          height={64}
-                          className="rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted text-lg font-bold">
-                          {t.name[0]}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Content */}
-                    <Card className="flex-1">
-                      {idx === 0 && subIdx === 0 && (
-                        <CardHeader className="bg-none shadow-none">
-                          <Image
-                            src="https://html.tailus.io/blocks/customers/openai.svg"
-                            alt="OpenAI Logo"
-                            width={120}
-                            height={24}
-                            className="dark:invert"
-                          />
-                        </CardHeader>
-                      )}
-                      <CardContent className="pt-6">
-                        <blockquote className="flex flex-col gap-4">
-                          <p className="text-lg font-medium leading-relaxed">
-                            {t.feedback}
-                          </p>
-                          <div>
-                            <a
-                              href={t.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="block text-sm font-medium hover:underline"
-                            >
-                              {t.name}
-                            </a>
-                            <span className="text-muted-foreground block text-sm">
-                              {t.role}
-                            </span>
-                          </div>
-                        </blockquote>
-                      </CardContent>
-                    </Card>
+                <p className="text-base sm:text-lg md:text-xl font-medium leading-relaxed text-center">
+                  {section.testimonials[0].feedback}
+                </p>
+                <div className="flex items-center justify-center gap-3">
+                  <Avatar className="size-10">
+                    {section.testimonials[0].image ? (
+                      <AvatarImage
+                        src={section.testimonials[0].image}
+                        alt={section.testimonials[0].name}
+                        width={40}
+                        height={40}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <AvatarFallback>
+                        {section.testimonials[0].name[0]}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
+                  <div className="text-left">
+                    <cite className="text-sm font-medium">
+                      <a
+                        href={section.testimonials[0].url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        {section.testimonials[0].name}
+                      </a>
+                    </cite>
+                    <span className="text-muted-foreground block text-xs sm:text-sm">
+                      {section.testimonials[0].role}
+                    </span>
                   </div>
-                ))}
-              </div>
-            )
-          })}
+                </div>
+              </blockquote>
+            )}
+          </div>
+
+          {/* Next two testimonials */}
+          <div className="flex flex-col gap-6 lg:col-span-2">
+            {section.testimonials.slice(1, 3).map((t, idx) => (
+              <blockquote
+                key={idx}
+                className={`
+                  flex flex-col justify-between bg-transparent p-4 space-y-6
+                  border-gray-300
+                  ${idx === 0 ? "lg:border-b-2" : ""}
+                  mx-auto
+                `}
+              >
+                <p className="text-sm sm:text-base md:text-lg font-medium leading-relaxed text-center">
+                  {t.feedback}
+                </p>
+                <div className="flex items-center gap-3 justify-center sm:justify-start">
+                  <Avatar className="size-10">
+                    {t.image ? (
+                      <AvatarImage
+                        src={t.image}
+                        alt={t.name}
+                        width={40}
+                        height={40}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <AvatarFallback>{t.name[0]}</AvatarFallback>
+                    )}
+                  </Avatar>
+                  <div>
+                    <cite className="text-sm font-medium">
+                      <a
+                        href={t.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        {t.name}
+                      </a>
+                    </cite>
+                    <span className="text-muted-foreground block text-xs sm:text-sm">
+                      {t.role}
+                    </span>
+                  </div>
+                </div>
+              </blockquote>
+            ))}
+          </div>
         </div>
       </div>
     </section>

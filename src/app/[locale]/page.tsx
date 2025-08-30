@@ -10,6 +10,8 @@ import { CardDemo } from '@/components/generals/check-card'
 import { Button } from '@/components/ui/button'
 import { HoverBackground } from '@/components/ui/hover-background'
 import React from 'react'
+import CallToActionSection from '@/components/generals/(home)/cta-section'
+import SkillSection from '@/components/generals/(home)/skill-section'
 
 export default async function LocalePage({
   params,
@@ -104,9 +106,12 @@ export default async function LocalePage({
               <EducationSection locale={locale}/>
 
       </div>
+      <SkillSection locale={locale}/>
 
       <HomeLogoCloud locale={locale}/>
       <FeedbackSection locale={locale} />
+      <CallToActionSection locale={locale} />
+      
     
       
           </HoverBackground>

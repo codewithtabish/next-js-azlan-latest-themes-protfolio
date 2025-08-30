@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { isUrduTypedLanguage } from "@/constants/language";
 import { welcomeMessages } from "@/constants/(translate)/top-hero";
 import CardStackExample from "./stack-card";
+import Image from "next/image";
 
 interface HeroSectionProps {
   locale: string;
@@ -15,34 +16,61 @@ const HeroSection: React.FC<HeroSectionProps> = ({ locale }) => {
   const isRtl = isUrduTypedLanguage(message.code);
 
   return (
-    <div className="w-full md:pt-32 overflow-y-hidden relative overflow-x-hidden flex items-center justify-center px-4 lg:px-16">
-      <div className="w-full h-96 rounded-lg overflow-hidden">
-        <div
-          className="w-full max-w-7xl h-full flex flex-col md:flex-row md:items-center mt-10 sm:mt-0 relative z-10 gap-8"
-          style={{ textAlign: isRtl ? "right" : "left", direction: isRtl ? "rtl" : "ltr" }}
-        >
-          {/* Column 1: Text */}
-          <div className="md:flex-1 flex flex-col gap-4">
-            <h1 className="2xl:text-6xl xl:text-5xl md:text-4xl text-3xl font-semibold font-serif text-gray-900 dark:text-white">
-              {message.welcome}
-            </h1>
-            <p className="mt-4 lg:w-[90%] text-gray-700 dark:text-gray-300 text-md md:text-lg 2xl:text-xl">
-              {message.shortDesc}
-            </p>
-            <div className="mt-4 flex justify-start">
-              <Button className="p-6 px-8 cursor-pointer" variant="outline">
-                {message.actionText}
-              </Button>
-            </div>
+    <section
+      className="
+        w-full
+        pt-16 sm:pt-20 md:pt-32 pb-8
+        relative flex items-center justify-center
+        px-4 sm:px-6 lg:px-16
+        overflow-x-hidden
+      "
+      style={{
+        direction: isRtl ? "rtl" : "ltr",
+        textAlign: isRtl ? "right" : "left",
+      }}
+    >
+      <div className="w-full max-w-7xl flex flex-col md:flex-row items-center gap-8">
+        {/* Text Column */}
+        <div className="flex-1 flex flex-col gap-4">
+          <h1 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-semibold font-serif text-gray-900 dark:text-white">
+            {message.welcome}
+          </h1>
+          <p className="mt-2 text-gray-700 dark:text-gray-300 text-base md:text-lg 2xl:text-xl max-w-xl">
+            {message.shortDesc}
+          </p>
+          <div className="mt-4 flex justify-start">
+            <Button className="px-6 py-3 text-base md:text-lg" variant="outline">
+              {message.actionText}
+            </Button>
           </div>
+        </div>
 
-          {/* Column 2: Image */}
-          <div className="w-full flex-1 flex justify-end md:w-auto items-center">
-            <CardStackExample />
+        {/* Image/Card Column */}
+        {/* Only visible on lg and up */}
+        <div className="hidden lg:flex flex-1 justify-end items-center">
+          <CardStackExample />
+        </div>
+        {/* Only visible below lg */}
+        <div className="flex lg:hidden flex-1 justify-center items-center w-full">
+          <div className="
+            w-[70vw] max-w-[220px]
+            sm:w-[60vw] sm:max-w-[300px]
+            md:w-[50vw] md:max-w-[350px]
+            aspect-square
+            flex items-center
+          ">
+            <Image
+              src={'/images/devtwo.png'}
+              alt="hero single image"
+              className="object-cover w-full h-full rounded-2xl"
+              width={400}
+              height={400}
+              priority
+            />
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
