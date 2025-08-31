@@ -118,11 +118,11 @@ const WaitlistComp: React.FC<Props> = ({ locale = 'en' }) => {
 
   return (
     <div className='w-full '>
-      <main className="relative items-center justify-center ">
-        <Spotlight />
+      <main className="relative items-center justify-center  ">
+        {/* <Spotlight /> */}
         <Particles
           className="absolute inset-0 z-0"
-          quantity={100}
+          quantity={400}
           ease={80}
           refresh
           color={color}

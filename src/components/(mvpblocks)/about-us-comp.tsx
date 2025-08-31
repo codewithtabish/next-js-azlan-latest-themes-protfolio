@@ -17,7 +17,6 @@ import { CardHoverEffect } from "./pulse-card";
 import Team1 from "./team-one";
 import aboutContent from "@/constants/(translate)/about-content";
 
-
 const RTL_LANGS = ["ur", "ar", "fa", "he"];
 
 const iconComponents = {
@@ -45,13 +44,10 @@ const AboutSection: React.FC<Props> = ({ locale = "en" }) => {
   const valuesInView = useInView(valuesRef, { once: true, amount: 0.3 });
 
   return (
-    <section
-    //   className="relative w-full  sm:pt-16  "
-      dir={isRTL ? "rtl" : "ltr"}
-    >
+    <section dir={isRTL ? "rtl" : "ltr"}>
       <Spotlight />
 
-      <div className="container relative z-10 mx-auto px-2 sm:px-4 ">
+      <div className="container relative z-10 mx-auto px-2 sm:px-4 overflow-x-hidden overflow-hidden">
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -59,7 +55,7 @@ const AboutSection: React.FC<Props> = ({ locale = "en" }) => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="mx-auto mb-8 sm:mb-12 max-w-2xl text-center"
         >
-          <h1 className="bg-gradient-to-r from-foreground/80 via-foreground to-foreground/80 bg-clip-text text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-transparent">
+          <h1 className="bg-gradient-to-r from-primary/90 via-primary to-primary/70 bg-clip-text text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-transparent">
             {content.title}
           </h1>
           <p className="mt-3 sm:mt-4 text-sm sm:text-lg md:text-xl text-muted-foreground text-justify sm:text-center">
@@ -76,7 +72,7 @@ const AboutSection: React.FC<Props> = ({ locale = "en" }) => {
             initial={{ opacity: 0, y: 40 }}
             animate={missionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="relative z-10 grid gap-6 sm:gap-10 md:gap-12 grid-cols-1 lg:grid-cols-2"
+            className="relative z-10 grid gap-6 sm:gap-10 md:gap-12 grid-cols-1 lg:grid-cols-1"
           >
             {/* Mission */}
             <motion.div
@@ -122,13 +118,13 @@ const AboutSection: React.FC<Props> = ({ locale = "en" }) => {
               <BorderBeam
                 duration={8}
                 size={300}
-                className="from-transparent via-blue-500/40 to-transparent"
+                className="from-transparent via-primary/40 to-transparent"
                 reverse
               />
-              <div className="mb-3 sm:mb-6 inline-flex h-10 w-10 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 backdrop-blur-sm">
-                <Target className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500" />
+              <div className="mb-3 sm:mb-6 inline-flex h-10 w-10 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm">
+                <Target className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
               </div>
-              <h2 className="mb-1 sm:mb-4 bg-gradient-to-r from-blue-500/90 to-blue-500/70 bg-clip-text text-lg sm:text-3xl font-bold text-transparent">
+              <h2 className="mb-1 sm:mb-4 bg-gradient-to-r from-primary/90 to-primary/70 bg-clip-text text-lg sm:text-3xl font-bold text-transparent">
                 {locale === "ur"
                   ? "ہمارا وژن"
                   : locale === "ar"
@@ -160,7 +156,7 @@ const AboutSection: React.FC<Props> = ({ locale = "en" }) => {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-6 sm:mb-12 text-center"
           >
-            <h2 className="bg-gradient-to-r from-foreground/80 via-foreground to-foreground/80 bg-clip-text text-lg sm:text-3xl md:text-4xl font-bold tracking-tight text-transparent">
+            <h2 className="bg-gradient-to-r from-primary/90 via-primary to-primary/70 bg-clip-text text-lg sm:text-3xl md:text-4xl font-bold tracking-tight text-transparent">
               {content.coreValuesTitle}
             </h2>
             <p className="mx-auto mt-2 sm:mt-4 max-w-2xl text-xs sm:text-base md:text-lg text-muted-foreground text-justify sm:text-center">
@@ -169,7 +165,7 @@ const AboutSection: React.FC<Props> = ({ locale = "en" }) => {
           </motion.div>
           {/* Responsive grid for core value cards */}
           <div className="grid gap-4 sm:gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2  2xl:grid-cols-4">
-            {content.values?.map((value:any, index:any) => {
+            {content.values?.map((value: any, index: any) => {
               // @ts-ignore
               const IconComponent = iconComponents[value.icon];
               return (
@@ -189,15 +185,7 @@ const AboutSection: React.FC<Props> = ({ locale = "en" }) => {
                     icon={<IconComponent className="h-6 w-6" />}
                     title={value.title}
                     description={value.description}
-                    variant={
-                      index === 0
-                        ? "purple"
-                        : index === 1
-                        ? "blue"
-                        : index === 2
-                        ? "amber"
-                        : "rose"
-                    }
+                    // variant="primary"
                     glowEffect={true}
                     size="lg"
                   />
@@ -209,7 +197,7 @@ const AboutSection: React.FC<Props> = ({ locale = "en" }) => {
       </div>
 
       {/* Team Section */}
-      <div className="mt-8 sm:mt-16">
+      <div className="mt-8 sm:mt-16 overflow-x-hidden">
         {/* @ts-ignore */}
         <Team1 locale={locale} />
       </div>

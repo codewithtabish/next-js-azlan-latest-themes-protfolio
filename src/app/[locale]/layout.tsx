@@ -30,8 +30,8 @@ export default async function LocaleLayout({ children, params }: { children: Rea
        <body className="antialiased  min-h-screen overflow-x-hidden">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TooltipProvider delayDuration={0}>
-            {/* <LanguageSwitcher /> */}
-            {/* <LogoNavbar /> */}
+            
+            
             <SocialBar />
             <main
               className="
