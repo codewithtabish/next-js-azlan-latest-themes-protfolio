@@ -25,12 +25,21 @@ const Header = ({ locale }: HeaderProps) => {
   const { resolvedTheme } = useTheme()
   const isRtl = isUrduTypedLanguage(locale)
 
-  // Scroll effect (optional, for shadow)
+  // scroll shadow effect
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // ✅ Check if we are on home page
+  const isHome =
+    pathName === '/' || pathName === `/${locale}` || pathName === `/${locale}/`
+
+  // If not home → render nothing
+  if (!isHome) {
+    return <></>
+  }
 
   return (
     <motion.header
@@ -38,13 +47,9 @@ const Header = ({ locale }: HeaderProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur transition-all border-b border-border shadow-sm`}
-      style={{
-        direction: isRtl ? 'rtl' : 'ltr'
-      }}
+      style={{ direction: isRtl ? 'rtl' : 'ltr' }}
     >
-      <div
-        className={`mx-auto flex items-center justify-between max-w-7xl w-full px-4 sm:px-6 py-3 md:py-4`}
-      >
+      <div className="mx-auto flex items-center justify-between max-w-7xl w-full px-4 sm:px-6 py-3 md:py-4">
         {/* Logo */}
         <BrandLogoTitle locale={locale} />
 
@@ -59,16 +64,17 @@ const Header = ({ locale }: HeaderProps) => {
               {item.label[locale as keyof typeof item.label] || item.label.en}
             </Link>
           ))}
+          <Link href={`/${locale}/gallery`}>Gallery</Link>
         </nav>
 
         {/* Right actions */}
         <div className="flex items-center gap-2">
-          {/* Show language switcher always, but theme toggle only on md+ */}
           <LanguageSwitcher />
           <div className="hidden md:block">
             <ThemeToggleButton />
           </div>
-          {/* Mobile menu button */}
+
+          {/* Mobile menu */}
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <Button
               variant="ghost"
@@ -87,7 +93,6 @@ const Header = ({ locale }: HeaderProps) => {
                 <SheetTitle>
                   <BrandLogoTitle locale={locale} />
                 </SheetTitle>
-                {/* Only one close button here */}
                 <SheetClose asChild>
                   <Button
                     variant="ghost"
@@ -96,12 +101,20 @@ const Header = ({ locale }: HeaderProps) => {
                     aria-label="Close menu"
                   >
                     <span className="sr-only">Close</span>
-                    <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <svg
+                      width="24"
+                      height="24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                   </Button>
                 </SheetClose>
               </SheetHeader>
+
               <nav className="flex flex-col gap-4 px-6 mt-4 text-lg font-medium">
                 {NAV_ITEMS.map((item: any) => (
                   <SheetClose asChild key={item.key}>
@@ -114,7 +127,7 @@ const Header = ({ locale }: HeaderProps) => {
                   </SheetClose>
                 ))}
               </nav>
-              {/* Only show theme toggle in sheet on mobile */}
+
               <div className="flex gap-3 px-6 mt-8 mb-4">
                 <ThemeToggleButton />
               </div>

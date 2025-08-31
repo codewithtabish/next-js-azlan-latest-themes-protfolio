@@ -12,6 +12,8 @@ import { HoverBackground } from '@/components/ui/hover-background'
 import React from 'react'
 import CallToActionSection from '@/components/generals/(home)/cta-section'
 import SkillSection from '@/components/generals/(home)/skill-section'
+import NotificationCenter from '@/components/generals/glass'
+import CtaParentSection from '@/components/generals/(home)/cta-parent-section'
 
 export default async function LocalePage({
   params,
@@ -20,6 +22,7 @@ export default async function LocalePage({
 }) {
   const { locale } = await params;
   return (
+    <>
 <main className="w-full min-h-screen flex justify-center bg-background">
       <div
         className="
@@ -110,7 +113,9 @@ export default async function LocalePage({
 
       <HomeLogoCloud locale={locale}/>
       <FeedbackSection locale={locale} />
-      <CallToActionSection locale={locale} />
+      {/* <CallToActionSection locale={locale} /> */}
+  
+      {/* <NotificationCenter/> */}
       
     
       
@@ -118,7 +123,14 @@ export default async function LocalePage({
     </div>
 
     
+
+    
     </main>
+        <div className='min-w-screen'>
+      <CtaParentSection/>
+
+      </div>
+    </>
   )
 }
 

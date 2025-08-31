@@ -2,6 +2,7 @@
 
 import { brandNamesAllLanguages } from "@/constants/(translate)/logo-name";
 import { LocaleType, isUrduTypedLanguage } from "@/constants/language";
+import Link from "next/link";
 
 type BrandLogoTitleProps = {
   locale?: LocaleType;
@@ -23,20 +24,22 @@ export default function BrandLogoTitle({ locale = "en" }: BrandLogoTitleProps) {
         textAlign: isRtl ? "right" : "center",
       }}
     >
+    <Link href={'/'}>
       <h1
         className="
-          text-xl
-          sm:text-2xl
-          md:text-3xl
-          lg:text-3xl
-          font-extrabold 
-          bg-gradient-to-r from-primary via-primary/70 to-primary 
-          bg-clip-text text-transparent tracking-tight
-          drop-shadow-sm hover:drop-shadow-lg transition duration-300
+        text-xl
+        sm:text-2xl
+        md:text-3xl
+        lg:text-3xl
+        font-extrabold 
+        bg-gradient-to-r from-primary via-primary/70 to-primary 
+        bg-clip-text text-transparent tracking-tight
+        drop-shadow-sm hover:drop-shadow-lg transition duration-300
         "
-      >
+        >
         {brand.value}
       </h1>
+          </Link>
     </div>
   );
 }
